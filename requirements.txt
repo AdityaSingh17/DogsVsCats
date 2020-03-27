@@ -1,0 +1,6 @@
+Werkzeug==0.15.2
+numpy==1.16.3
+Flask==1.1.1
+Keras==2.2.5
+tensorflow_gpu==2.0.0
+tensorflow==2.1.0
