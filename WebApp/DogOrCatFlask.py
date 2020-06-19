@@ -2,6 +2,8 @@
 import os
 import tensorflow as tf
 from flask import request, render_template, Flask
+import urllib.request
+import validators
 from werkzeug.utils import secure_filename
 import numpy as np
 import keras
@@ -43,6 +45,14 @@ app.config["UPLOAD_FOLDER"] = "static"
 # Result dictionary to be sent to HTML.
 results = {"PATH": 0, "PREDICTION": 0}
 
+# Validate URL received via API.
+def validate_web_url(url):
+    if validators.url(url):
+        return True
+    else:
+        return False
+
+
 # Prediction function.
 def predict(img_path):
     img = keras.preprocessing.image.load_img(img_path, target_size=(150, 150))  # Load image from path and resize.
@@ -77,6 +87,23 @@ def index():
     return render_template("index.html", res=results)
 
 
+# Define API endpoint.
+@app.route("/query")
+def query():
+    args = request.args  # Get the URL of image from url query parameter.
+    try:
+        if validate_web_url(args["url"]):
+            filename = timestr + ".jpg"
+            path = os.path.join("static", filename)
+            urllib.request.urlretrieve(args["url"], os.path.join("static", filename))  # Save image from URL on disk.
+            result = predict(img_path=path)  # Send the image to prediction algorithm.
+            return {"Prediction": result["PREDICTION"]}  # Return JSON prediction.
+        else:
+            return "Oops, please provide a valid URL! :(", 200
+    except:
+        return "Pythonanywhere servers will not let us access that URL! :( Please try a different URL."
+
+
 # Run app.
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True)  # Set debug = False in production.
