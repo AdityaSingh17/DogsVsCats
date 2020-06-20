@@ -13,12 +13,13 @@ Application Website: http://dogorcat.pythonanywhere.com/
 * Sit back and wait for the prediction.
 
 ## API
-API Endpoint: `http://dogorcat.pythonanywhere.com/query?url=<URL-HERE>`
+API Endpoint: http://dogorcat.pythonanywhere.com/query
 
 ### Usage
-* Attach the URL of the image you want to classify at the designated place in the API Endpoint.
-* The prediction is returned as a JSON object.
-* Example of a valid API request: http://dogorcat.pythonanywhere.com/query?url=https://i.redd.it/39w0xd9ersxz.jpg
+* Check file [api.py](https://github.com/AdityaSingh17/DogsVsCats/blob/master/api.py) for a working example of API.
+* Specify URL on the line that states ```URL = "<URL HERE>"```
+* Example:  ```URL = "https://i.redd.it/39w0xd9ersxz.jpg"```
+* Run file to see the result.
 
 ### Note
 This website is hosted on [pythonanywhere](https://www.pythonanywhere.com/) servers. Some of the image hosting websites are not in the **White list** of the host. 
